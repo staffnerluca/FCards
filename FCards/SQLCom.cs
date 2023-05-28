@@ -38,17 +38,16 @@ namespace FCards
             if (!databaseExists())
             {
                 cmd.CommandText = "create database " + database;
-                try
-                {
+               // try
+               // {
                     conn.Open();
                     cmd.ExecuteNonQuery();
-                    conn.ChangeDatabase("staffnLu3IT");
+                    conn.ChangeDatabase(database);
                     conn.Close();
-                }
-                catch (Exception ex) {
+                //}
+                //catch (Exception ex) {
                     conn.Close();
-                    throw new NotImplementedException(); 
-                }
+                //}
                 createTables();
             }
         }
@@ -56,18 +55,17 @@ namespace FCards
         public void createTables()
         {
             cmd.CommandText = "CREATE TABLE[dbo].[users] ([Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY, [username] NCHAR(20) NULL, [password] NCHAR(100) NULL)";
-            try
-            {
+            //try
+            //{
                 conn.Open();
                 cmd.ExecuteNonQuery();
                 cmd.CommandText = "CREATE TABLE[dbo].[flashcards] ([Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY, [question] NCHAR(1000) NOT NULL, [answer] NCHAR(1000) NULL, [dueDate] datetime2 not null)";
                 cmd.ExecuteNonQuery();
                 conn.Close();
-            }
-            catch (Exception ex) {
+            //}
+            //catch (Exception ex) {
                 conn.Close();
-                throw new NotImplementedException();
-            }
+            //}
         }
         public void createExamples()
         {
@@ -101,7 +99,6 @@ namespace FCards
             }
             catch (SqlException ex) {
                 conn.Close();
-                throw new NotImplementedException();
             }
             return free;
         }
@@ -117,7 +114,6 @@ namespace FCards
             }
             catch (Exception ex)
             {
-                throw new NotImplementedException();
                 return -1;
             }
         }
