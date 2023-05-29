@@ -35,6 +35,7 @@ namespace FCards
 
         public void createDatabaseIfNotExists()
         {
+
             if (!databaseExists())
             {
                 cmd.CommandText = "create database " + database;
@@ -42,7 +43,6 @@ namespace FCards
                // {
                     conn.Open();
                     cmd.ExecuteNonQuery();
-                    conn.ChangeDatabase(database);
                     conn.Close();
                 //}
                 //catch (Exception ex) {
@@ -52,14 +52,33 @@ namespace FCards
             }
         }
 
+        public void cleanEverything()
+        {
+            cmd.CommandText = "drop table users";
+            conn.Open();
+            //cmd.ExecuteNonQuery();
+            cmd.CommandText = "drop table flashcards";
+            //cmd.ExecuteNonQuery();
+            cmd.CommandText = "drop database " + database;
+            conn.Close();
+        }
+
+        public void connectToDB()
+        {
+            conn.Open();
+            conn.ChangeDatabase(database);
+            conn.Close();
+
+        }
+
         public void createTables()
         {
             cmd.CommandText = "CREATE TABLE[dbo].[users] ([Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY, [username] NCHAR(20) NULL, [password] NCHAR(100) NULL)";
             //try
             //{
                 conn.Open();
-                cmd.ExecuteNonQuery();
-                cmd.CommandText = "CREATE TABLE[dbo].[flashcards] ([Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY, [question] NCHAR(1000) NOT NULL, [answer] NCHAR(1000) NULL, [dueDate] datetime2 not null)";
+                //cmd.ExecuteNonQuery();
+                cmd.CommandText = "CREATE TABLE[dbo].[flashcards] ([Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY, [question] NCHAR(1000) NOT NULL, [answer] NCHAR(1000) NULL, [dueDate] datetime2 null)";
                 cmd.ExecuteNonQuery();
                 conn.Close();
             //}
@@ -69,17 +88,17 @@ namespace FCards
         }
         public void createExamples()
         {
+            DateTime time = DateTime.Now;
             cmd.CommandText = "insert into flashcards(question, answer) values('Is HTML a programming language?', 'No, just no')";
-            try
-            {
+            //try
+            //{
                 conn.Open();
                 cmd.ExecuteNonQuery();
                 conn.Close();
-            }
-            catch (Exception ex) {
-                throw new NotImplementedException();
-                conn.Close();
-            }
+            //}
+            //catch (Exception ex) {
+            //    conn.Close();
+            //}
         }
         public bool usernameDoesNotExist(string username)
         {

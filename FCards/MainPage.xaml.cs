@@ -6,7 +6,9 @@ public partial class MainPage : ContentPage
 	public MainPage()
 	{
 		InitializeComponent();
+		sql.cleanEverything();
 		sql.createDatabaseIfNotExists();
+		sql.connectToDB();
 		sql.createExamples();
 	}
 
