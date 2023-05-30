@@ -19,7 +19,7 @@ namespace FCards
 
         public bool databaseExists()
         {
-            bool exists = false;
+            bool exists = true;
             cmd.CommandText = "select Count(*) from sys.databases where name = '" + database + "'";
             try
             {
@@ -35,7 +35,7 @@ namespace FCards
 
         public void createDatabaseIfNotExists()
         {
-
+            
             if (!databaseExists())
             {
                 cmd.CommandText = "create database " + database;
@@ -147,14 +147,14 @@ namespace FCards
 
         public void createCard(string question, string answer)
         {
-            cmd.CommandText = "insert into flashcards(question, answer, dueDate) values('" + question + "', '" + answer + "', " + DateTime.Now;
-            try
-            {
+            cmd.CommandText = "insert into flashcards(question, answer) values('" + question + "', '" + answer+ "')";
+            //try
+            //{
                 conn.Open();
                 cmd.ExecuteNonQuery();
                 conn.Close();
-            }
-            catch (Exception ex) { }
+            //}
+            //catch (Exception ex) { }
         }
 
         public List<String> getRandomCard()
@@ -170,8 +170,7 @@ namespace FCards
             {
                 max = (int)reader["Id"];
             }
-
-            int getId = rand.Next(0, max);
+            int getId = rand.Next(1, max);
             while (reader.Read())
             {
                 if ((int)reader["Id"] == getId)
@@ -184,6 +183,20 @@ namespace FCards
             }
             conn.Close();
             return list;
+        }
+
+        public List<string> getAllCards()
+        {
+            List<string> cards = new List<string> ();
+            cmd.CommandText = "select * from flashcards";
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                cards.Add(reader["question"].ToString());
+            }
+            conn.Close();
+            return cards;
         }
     }
 }

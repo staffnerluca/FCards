@@ -27,7 +27,8 @@
 
         <Button
             x:Name="btnSave"
-            Clicked="SavedPressed"/>
+            Clicked="SavedPressed"
+            Text="Save"/>
         
         <Button
                 x:Name="btnStudy"
