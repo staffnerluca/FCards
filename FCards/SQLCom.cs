@@ -39,15 +39,15 @@ namespace FCards
             if (!databaseExists())
             {
                 cmd.CommandText = "create database " + database;
-               // try
-               // {
+               try
+               {
                     conn.Open();
                     cmd.ExecuteNonQuery();
                     conn.Close();
-                //}
-                //catch (Exception ex) {
+                }
+                catch (Exception ex) {
                     conn.Close();
-                //}
+                }
                 createTables();
             }
         }
@@ -56,9 +56,9 @@ namespace FCards
         {
             cmd.CommandText = "drop table users";
             conn.Open();
-            //cmd.ExecuteNonQuery();
+            cmd.ExecuteNonQuery();
             cmd.CommandText = "drop table flashcards";
-            //cmd.ExecuteNonQuery();
+            cmd.ExecuteNonQuery();
             cmd.CommandText = "drop database " + database;
             conn.Close();
         }
@@ -74,31 +74,31 @@ namespace FCards
         public void createTables()
         {
             cmd.CommandText = "CREATE TABLE[dbo].[users] ([Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY, [username] NCHAR(20) NULL, [password] NCHAR(100) NULL)";
-            //try
-            //{
+            try
+            {
                 conn.Open();
-                //cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
                 cmd.CommandText = "CREATE TABLE[dbo].[flashcards] ([Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY, [question] NCHAR(1000) NOT NULL, [answer] NCHAR(1000) NULL, [dueDate] datetime2 null)";
                 cmd.ExecuteNonQuery();
                 conn.Close();
-            //}
-            //catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 conn.Close();
-            //}
+            }
         }
         public void createExamples()
         {
             DateTime time = DateTime.Now;
             cmd.CommandText = "insert into flashcards(question, answer) values('Is HTML a programming language?', 'No, just no')";
-            //try
-            //{
+            try
+            {
                 conn.Open();
                 cmd.ExecuteNonQuery();
                 conn.Close();
-            //}
-            //catch (Exception ex) {
-            //    conn.Close();
-            //}
+            }
+            catch (Exception ex) {
+                conn.Close();
+            }
         }
         public bool usernameDoesNotExist(string username)
         {
@@ -148,13 +148,13 @@ namespace FCards
         public void createCard(string question, string answer)
         {
             cmd.CommandText = "insert into flashcards(question, answer) values('" + question + "', '" + answer+ "')";
-            //try
-            //{
+            try
+            {
                 conn.Open();
                 cmd.ExecuteNonQuery();
                 conn.Close();
-            //}
-            //catch (Exception ex) { }
+            }
+            catch (Exception ex) { }
         }
 
         public List<String> getRandomCard()

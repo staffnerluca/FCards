@@ -8,7 +8,7 @@ public partial class MainPage : ContentPage
 		InitializeComponent();
 		sql.createDatabaseIfNotExists();
 		sql.connectToDB();
-		//sql.createExamples();
+		sql.createExamples();
 	}
 
 	public void createNewPressed(Object sender, EventArgs e)
