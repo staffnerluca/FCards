@@ -193,7 +193,9 @@ namespace FCards
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
+                cards.Add(reader["Id"].ToString());
                 cards.Add(reader["question"].ToString());
+                cards.Add(reader["answer"].ToString());
             }
             conn.Close();
             return cards;

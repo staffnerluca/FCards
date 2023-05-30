@@ -14,7 +14,8 @@
                 x:Name="lblQuestionID"
                 HeightRequest="20"
                 WidthRequest="20"
-                BackgroundColor="Grey"/>
+                BackgroundColor="Grey"
+                TextColor="White"/>
 
             <Editor
                 x:Name="eQuestion"
