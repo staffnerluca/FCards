@@ -33,5 +33,11 @@ public partial class MainPage : ContentPage
 			eQuestion.Text = "There are no cards";
 		}
 	}
+	public void btnDiffPressed(Object sender, EventArgs e)
+	{
+		Button b = sender as Button;
+		sql.updateDueDate(b.Text, int.Parse(lblQuestionID.Text));
+		studyPressed(sender, e);
+	}
 }
 

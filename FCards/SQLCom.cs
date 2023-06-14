@@ -14,8 +14,13 @@ namespace FCards
         static private SqlConnection conn = new SqlConnection(@"Server=(localdb)\MSSQLLocalDB; Integrated Security = True");
         static private SqlCommand cmd = new SqlCommand(co, conn);
         static private string database = "FCstaffnLu3IT";
-
-        public SQLCom() { }
+        Dictionary<string, DateTime> difficultys = new Dictionary<string, DateTime>();
+        public SQLCom() {
+            difficultys.Add("easy", DateTime.Now.AddDays(7));
+            difficultys.Add("intermediate", DateTime.Now.AddDays(4));
+            difficultys.Add("hard", DateTime.Now.AddDays(1));
+            difficultys.Add("wrong", DateTime.Now);
+        }
 
         public bool databaseExists()
         {
@@ -68,7 +73,6 @@ namespace FCards
             conn.Open();
             conn.ChangeDatabase(database);
             conn.Close();
-
         }
 
         public void createTables()
@@ -137,14 +141,6 @@ namespace FCards
             }
         }
 
-        public void updateDueDate(DateTime newDate, int id)
-        {
-            cmd.CommandText = "update flashcards set dueDate = " + newDate + "where Id=" + id;
-            conn.Open();
-            cmd.ExecuteNonQuery();
-            conn.Close();
-        }
-
         public void createCard(string question, string answer)
         {
             cmd.CommandText = "insert into flashcards(question, answer) values('" + question + "', '" + answer+ "')";
@@ -199,6 +195,16 @@ namespace FCards
             }
             conn.Close();
             return cards;
+        }
+
+        public void updateDueDate(string key, int cardID)
+        {
+            cmd.CommandText = "update flashcards set DueDate = @DTVal where cardID = " + cardID;
+            //best practice to write secure code. Sorce ChatGPT
+            cmd.Parameters.AddWithValue("@DTVal", difficultys[key]);
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
     }
 }

@@ -47,19 +47,28 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Button
+                    x:Name="wrong"
+                    Grid.Column="0"
+                    Text="Wrong"
+                    Command="btnDifPressed"
+                    />
+                <Button
                     x:Name="btnEasy"
                     Grid.Column="0"
                     Text="Easy"
+                    Command="btnDifPressed"
                     />
                 <Button
                     x:Name="btnIntermediate"
                     Grid.Column="1"
                     Text="Intermediate"
+                    Command="btnDifPressed"
                     />
                 <Button
                     x:Name="btnHard"
                     Grid.Column="2"
                     Text="Hard"
+                    Command="btnDifPressed"
                     />
             </Grid>
             <Button
