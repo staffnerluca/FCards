@@ -17,7 +17,12 @@ public partial class MainPage : ContentPage
 		App.Current.MainPage = new NavigationPage(new CreateQuestion());
 	}
 
-	public void studyPressed(Object sender, EventArgs e)
+    public void btnSettingsPressed(Object sender, EventArgs e)
+    {
+        App.Current.MainPage = new NavigationPage(new Settings());
+    }
+
+    public void studyPressed(Object sender, EventArgs e)
 	{
 		string noCardsText = "There are no cards";
         if (eQuestion.Text.Equals("") || eQuestion.Text.Equals(noCardsText))

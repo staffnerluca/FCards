@@ -10,6 +10,10 @@ namespace FCards
 {
     public class SQLCom
     {
+        static public int easy = 7;
+        static public int intermediate = 4;
+        static public int hard = 1;
+
         static private string co = "";
         static private SqlConnection conn = new SqlConnection(@"Server=(localdb)\MSSQLLocalDB; Integrated Security = True");
         static private SqlCommand cmd = new SqlCommand(co, conn);
@@ -17,9 +21,9 @@ namespace FCards
         Dictionary<string, DateTime> difficultys = new Dictionary<string, DateTime>();
         int countForDueDateChange = 0;
         public SQLCom() {
-            difficultys.Add("easy", DateTime.Now.AddDays(7));
-            difficultys.Add("intermediate", DateTime.Now.AddDays(4));
-            difficultys.Add("hard", DateTime.Now.AddDays(1));
+            difficultys.Add("easy", DateTime.Now.AddDays(easy));
+            difficultys.Add("intermediate", DateTime.Now.AddDays(intermediate));
+            difficultys.Add("hard", DateTime.Now.AddDays(hard));
             difficultys.Add("wrong", DateTime.Now);
         }
 

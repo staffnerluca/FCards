@@ -81,6 +81,10 @@
                 Text="create new flashcard"
                 Clicked="createNewPressed"
                 />
+            <Button
+                x:Name="btnSettings"
+                Text="Settings"
+                Clicked="btnSettingsPressed"/>
         </VerticalStackLayout>
     </ScrollView>
 

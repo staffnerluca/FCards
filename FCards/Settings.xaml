@@ -29,9 +29,41 @@
                     Grid.Column="0"
                     Grid.Row="0"/>
                 <Entry
-                    
-                
+                    x:Name="eEasy"
+                    Text=""
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    BackgroundColor="Gray"
+                    />
+                <Label
+                    Text="Intermediate"
+                    Grid.Column="0"
+                    Grid.Row="1"/>
+                <Entry
+                    x:Name="eIntermediate"
+                    Text=""
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    BackgroundColor="Gray"
+                    />
+                <Label
+                    Text="Hard"
+                    Grid.Column="0"
+                    Grid.Row="2"/>
+                <Entry
+                    x:Name="eHard"
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    BackgroundColor="Gray"
+                    />
             </Grid>
+            <Button
+                x:Name="btnSavaChanges"
+                Clicked="btnSavaChanges_Clicked"
+                Text="Sava Changes"/>
+            <Button
+                x:Name="btnStudy"
+                Clicked="btnStudyPressed"/>
+        </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>
