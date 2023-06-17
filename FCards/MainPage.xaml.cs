@@ -2,6 +2,7 @@
 
 public partial class MainPage : ContentPage
 {
+	int currentId = 0;
 	public SQLCom sql = new SQLCom();
 	public MainPage()
 	{
@@ -18,26 +19,49 @@ public partial class MainPage : ContentPage
 
 	public void studyPressed(Object sender, EventArgs e)
 	{
-		List<String> list = sql.getAllCards();
-		int numberOfCards=list.Count/3;
-		Random r = new Random();
-		int id = r.Next(numberOfCards)*3;
-		if(!(list.Count == 0))
+		string noCardsText = "There are no cards";
+        if (eQuestion.Text.Equals("") || eQuestion.Text.Equals(noCardsText))
 		{
-            lblQuestionID.Text = list[id-3];
-            eQuestion.Text = list[id-2];
-            eAnswer.Text = list[id-1];
+            List<String> list = sql.getAllCards();
+            int numberOfCards = list.Count / 3;
+            Random r = new Random();
+            currentId = r.Next(numberOfCards) * 3;
+            if (!(list.Count == 0))
+            {
+				try
+				{
+                    lblQuestionID.Text = list[currentId - 3];
+                    eQuestion.Text = list[currentId - 2];
+					//eAnswer.Text = list[id-1]; //only for tests;
+				}
+				catch(Exception ex) {}
+
+            }
+            else
+            {
+                eQuestion.Text = noCardsText;
+            }
         }
-		else
-		{
-			eQuestion.Text = "There are no cards";
-		}
 	}
-	public void btnDiffPressed(Object sender, EventArgs e)
+
+	public void btnDifPressed(Object sender, EventArgs e)
 	{
 		Button b = sender as Button;
-		sql.updateDueDate(b.Text, int.Parse(lblQuestionID.Text));
+		sql.updateDueDate(b.Text.ToLower(), int.Parse(lblQuestionID.Text));
+		eQuestion.Text = "";
+		eAnswer.Text = "";
+		lblQuestionID.Text = "";
 		studyPressed(sender, e);
+
 	}
+
+    private void btnShowAnswerClicked(object sender, EventArgs e)
+    {
+        List<String> list = sql.getAllCards();
+		if(list.Count > 0)
+		{
+			eAnswer.Text = list[currentId-1];
+		}
+    }
 }
 

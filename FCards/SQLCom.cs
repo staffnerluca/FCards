@@ -15,6 +15,7 @@ namespace FCards
         static private SqlCommand cmd = new SqlCommand(co, conn);
         static private string database = "FCstaffnLu3IT";
         Dictionary<string, DateTime> difficultys = new Dictionary<string, DateTime>();
+        int countForDueDateChange = 0;
         public SQLCom() {
             difficultys.Add("easy", DateTime.Now.AddDays(7));
             difficultys.Add("intermediate", DateTime.Now.AddDays(4));
@@ -158,53 +159,67 @@ namespace FCards
             //In production we would also check for the due date, but for presentation purposes this is ignored, because otherwise we would get an empty list on most days
             List<String> list = new List<String>();
             cmd.CommandText = "select * from flashcards";
-            conn.Open();
-            SqlDataReader reader = cmd.ExecuteReader();
-            Random rand = new Random();
-            int max = 0;
-            while(reader.Read())
+            try
             {
-                max = (int)reader["Id"];
-            }
-            int getId = rand.Next(1, max);
-            while (reader.Read())
-            {
-                if ((int)reader["Id"] == getId)
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                Random rand = new Random();
+                int max = 0;
+                while (reader.Read())
                 {
-                    list.Add(reader["Id"].ToString());
-                    list.Add(reader["question"].ToString());
-                    list.Add(reader["answer"].ToString());
-                    break;
+                    max = (int)reader["Id"];
                 }
-            }
-            conn.Close();
+                int getId = rand.Next(1, max);
+                while (reader.Read())
+                {
+                    if ((int)reader["Id"] == getId)
+                    {
+                        list.Add(reader["Id"].ToString());
+                        list.Add(reader["question"].ToString());
+                        list.Add(reader["answer"].ToString());
+                        break;
+                    }
+                }
+                conn.Close();
+            }catch(Exception ex) { conn.Close(); }
+
             return list;
         }
 
         public List<string> getAllCards()
         {
             List<string> cards = new List<string> ();
-            cmd.CommandText = "select * from flashcards";
-            conn.Open();
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
+            cmd.CommandText = "select * from flashcards where DueDate >= GETDATE()";
+            try
             {
-                cards.Add(reader["Id"].ToString());
-                cards.Add(reader["question"].ToString());
-                cards.Add(reader["answer"].ToString());
-            }
-            conn.Close();
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    cards.Add(reader["Id"].ToString());
+                    cards.Add(reader["question"].ToString());
+                    cards.Add(reader["answer"].ToString());
+                }
+                conn.Close();
+            }catch(Exception e) { conn.Close(); }
+;
             return cards;
         }
 
         public void updateDueDate(string key, int cardID)
         {
-            cmd.CommandText = "update flashcards set DueDate = @DTVal where cardID = " + cardID;
+            //strangely I got an exception when executing this code more than once, so I used the simplest fix I could think of, even though it is a litt bit ugly
+            cmd.CommandText = "update flashcards set DueDate = @DTVal"+countForDueDateChange+ " where ID = " + cardID;
             //best practice to write secure code. Sorce ChatGPT
-            cmd.Parameters.AddWithValue("@DTVal", difficultys[key]);
-            conn.Open();
-            cmd.ExecuteNonQuery();
-            conn.Close();
+            cmd.Parameters.AddWithValue("@DTVal"+countForDueDateChange, difficultys[key]);
+            try
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+                countForDueDateChange += 1;
+            }catch(Exception ex) { conn.Close(); }
+
         }
     }
 }

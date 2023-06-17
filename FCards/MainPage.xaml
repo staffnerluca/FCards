@@ -23,6 +23,7 @@
                 WidthRequest="1000"
                 BackgroundColor="Grey"
                 TextColor="White"
+                Text=""
                 />
                 
             <Editor
@@ -33,9 +34,13 @@
                 TextColor="White"/>
 
             <Button
-                x:Name="study"
+                x:Name="btnStudy"
                 Clicked="studyPressed"
                 Text="Study"/>
+            <Button
+                x:Name="btnShowAnswer"
+                Text="Show answer"
+                Clicked="btnShowAnswerClicked"/>
             <Grid
                 x:Name="difficulty">
                 <Grid.RowDefinitions>
@@ -50,31 +55,31 @@
                     x:Name="wrong"
                     Grid.Column="0"
                     Text="Wrong"
-                    Command="btnDifPressed"
+                    Clicked="btnDifPressed"
                     />
                 <Button
                     x:Name="btnEasy"
                     Grid.Column="0"
                     Text="Easy"
-                    Command="btnDifPressed"
+                    Clicked="btnDifPressed"
                     />
                 <Button
                     x:Name="btnIntermediate"
                     Grid.Column="1"
                     Text="Intermediate"
-                    Command="btnDifPressed"
+                    Clicked="btnDifPressed"
                     />
                 <Button
                     x:Name="btnHard"
                     Grid.Column="2"
                     Text="Hard"
-                    Command="btnDifPressed"
+                    Clicked="btnDifPressed"
                     />
             </Grid>
             <Button
                 x:Name="createNew"
-                Clicked="createNewPressed"
                 Text="create new flashcard"
+                Clicked="createNewPressed"
                 />
         </VerticalStackLayout>
     </ScrollView>
